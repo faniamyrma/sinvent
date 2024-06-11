@@ -12,8 +12,9 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
         $rsetKategori = Kategori::select('id', 'kategori', 'jenis', 
             \DB::raw('(CASE
                 WHEN jenis = "M" THEN "Modal"
@@ -21,6 +22,11 @@ class KategoriController extends Controller
                 WHEN jenis = "BHP" THEN "Bahan Habis Pakai"
                 ELSE "Bahan Tidak Habis Pakai"
                 END) AS ketKategori'))
+            ->when($search, function($query) use ($search) {
+                // Jika terdapat kata kunci pencarian, filter berdasarkan nama kategori atau jenis
+                $query->where('kategori', 'like', "%$search%");
+            })
+
             ->paginate(10);
 
         return view('kategori.index', compact('rsetKategori'));

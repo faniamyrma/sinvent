@@ -15,10 +15,15 @@ Route::get('/', function () {
 
 
 Route::resource('/products', \App\Http\Controllers\ProductController::class);
+
 Route::resource('/kategori', \App\Http\Controllers\KategoriController::class);
+
 Route::resource('/barang', \App\Http\Controllers\BarangController::class);
+Route::resource('barang', BarangController::class);
+
 Route::resource('/barangmasuk', \App\Http\Controllers\BarangmasukController::class);
 Route::resource('/barangkeluar', \App\Http\Controllers\BarangkeluarController::class);
+
 Route::resource('category', CategoryController::class);
 
 Route::get('login', [LoginController::class,'index'])->name('login')->middleware('guest');
